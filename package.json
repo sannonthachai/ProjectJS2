@@ -1,0 +1,22 @@
+{
+  "name": "projectjs",
+  "version": "1.0.0",
+  "description": "First Time",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sannonthachai/ProjectJS.git"
+  },
+  "author": "sannonthachai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sannonthachai/ProjectJS/issues"
+  },
+  "homepage": "https://github.com/sannonthachai/ProjectJS#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
