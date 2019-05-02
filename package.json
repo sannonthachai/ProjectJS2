@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sannonthachai/ProjectJS.git"
+    "url": "git+https://github.com/sannonthachai/ProjectJS2.git"
   },
   "author": "sannonthachai",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sannonthachai/ProjectJS/issues"
+    "url": "https://github.com/sannonthachai/ProjectJS2/issues"
   },
-  "homepage": "https://github.com/sannonthachai/ProjectJS#readme",
+  "homepage": "https://github.com/sannonthachai/ProjectJS2#readme",
   "dependencies": {
     "express": "^4.16.4"
   }
