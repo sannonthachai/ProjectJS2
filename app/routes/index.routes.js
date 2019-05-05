@@ -3,4 +3,5 @@ module.exports = (app) => {
     app.get('/',index.render);
     app.get('/setCookies',index.cookie);
     app.get('/login',index.queryString);
+    app.post('/login',index.body);
 };

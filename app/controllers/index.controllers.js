@@ -16,3 +16,8 @@ exports.queryString = (req,res) => {
     console.log(req.query)
     console.log(req.query.userName)
 };
+
+exports.body = (req,res) => {
+    console.log(req.body)
+    console.log(req)
+}
