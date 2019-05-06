@@ -1,5 +1,8 @@
 exports.render = (req,res) => {
-    res.send("Hellow World")
+    res.render('index',{
+        title : 'Hellow World',
+        message : 'How are you'
+    });
 };
 
 exports.cookie = (req,res) => {

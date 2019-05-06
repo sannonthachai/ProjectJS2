@@ -17,6 +17,11 @@ module.exports = () => {
     app.use(bodyParser.json());
     app.use(cookieParser());
 
+    app.set('views','./app/views');
+    app.set('view engine','pug');
+
+    app.use(express.static('./public'));
+
     require('../app/routes/index.routes')(app);
     return app;
 };
