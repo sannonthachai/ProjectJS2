@@ -18,6 +18,9 @@ exports.queryString = (req,res) => {
 };
 
 exports.body = (req,res) => {
+    res.send('Hellow Body')
     console.log(req.body)
-    console.log(req)
-}
+    console.log(req.body.userName);
+    console.log(req.body.password);
+    res.end();
+};
