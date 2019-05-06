@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const sass = require('node-sass-middleware');
 
 module.exports = () => {
     let app = express();
@@ -19,6 +20,14 @@ module.exports = () => {
 
     app.set('views','./app/views');
     app.set('view engine','pug');
+
+    app.use(sass({
+        src: './sass',
+        dest: './public/css',
+        outputStyle: 'compressed',
+        prefix: '/css',
+        debug: true
+    }));
 
     app.use(express.static('./public'));
 
