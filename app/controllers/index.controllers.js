@@ -19,11 +19,3 @@ exports.queryString = (req,res) => {
     console.log(req.query)
     console.log(req.query.userName)
 };
-
-exports.body = (req,res) => {
-    res.send('Hellow Body')
-    console.log(req.body)
-    console.log(req.body.userName);
-    console.log(req.body.password);
-    res.end();
-};
