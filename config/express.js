@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const sass = require('node-sass-middleware');
 const validator = require('express-validator');
 const session = require('express-session');
+const mongoose = require('mongoose');
 
 module.exports = () => {
     let app = express();
