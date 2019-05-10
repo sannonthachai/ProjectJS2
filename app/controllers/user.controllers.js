@@ -16,7 +16,7 @@ exports.login = (req,res) => {
     if (req.body.remember === 'remember'){
         req.session.remember = true;
         req.session.email = req.body.email;
-        req.sessionOptions.maxAge = 60000;
+        req.session.cookie.maxAge = 60000;
     }
 
     res.render('index',{

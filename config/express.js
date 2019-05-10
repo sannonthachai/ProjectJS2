@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const sass = require('node-sass-middleware');
 const validator = require('express-validator');
-const cookieSession = require('cookie-session');
+const session = require('express-session');
 
 module.exports = () => {
     let app = express();
@@ -15,9 +15,10 @@ module.exports = () => {
         app.use(compression);
     }
 
-    app.use(cookieSession({
-        name: 'session' , 
-        keys: ['secret_key1' , 'secret_key2']
+    app.use(session({
+        secret: 'secret_key',
+        resave: false,
+        saveUninitialized: true
     }));
 
     app.use(cookieParser());
