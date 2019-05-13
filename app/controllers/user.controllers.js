@@ -32,3 +32,55 @@ exports.logout = (req,res) => {
         isLoggedIn: false
     });
 };
+
+const User = require('mongoose').model('User');
+
+exports.create = (req,res,next) => {
+    let user = new User(req.body);
+
+    user.save((err) => {
+        if(err) {
+            return next(err);
+        } else {
+            res.json(user);
+        }
+    });
+};
+
+exports.list = (req,res,next) => {
+    User.find({},(err,users) => {
+        if(err) {
+            return next(err);
+        } else {
+            res.json(users);
+        }
+    });
+};
+
+exports.userByUsername = (req,res,next,username) => {
+    User.findOne({
+        userName: username
+    }, (err,user) => {
+        if(err){
+            return next(err);
+        } else {
+            req.user = user;
+            next();
+        }
+    });
+};
+
+exports.read = (req,res) => {
+    res.json(req.user);
+};
+
+exports.update = (req,res,next) => {
+    User.findOneAndUpdate({userName: req.user.username}, req.body,
+        (err,user) => {
+            if(err) {
+                return next(err);
+            } else {
+                res.json(user);
+            }
+        });
+};
