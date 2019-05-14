@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const sass = require('node-sass-middleware');
 const validator = require('express-validator');
 const session = require('express-session');
+const passport = require('passport');
 const config = require('./config');
 
 module.exports = () => {
@@ -21,6 +22,9 @@ module.exports = () => {
         resave: false,
         saveUninitialized: true
     }));
+
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     app.use(cookieParser());
 
