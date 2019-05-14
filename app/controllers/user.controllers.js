@@ -42,7 +42,7 @@ exports.create = (req,res,next) => {
         if(err) {
             return next(err);
         } else {
-            res.json(user);
+            res.json({message: 'Create complete!'});
         }
     });
 };
@@ -83,4 +83,14 @@ exports.update = (req,res,next) => {
                 res.json({message: 'Update complete!'});
             }
         });
+};
+
+exports.delete = (req,res,next) => {
+    req.user.remove((err) => {
+        if(err) {
+            return next(err);
+        } else {
+            res.json({message: 'Delete complete!'});
+        }
+    });
 };

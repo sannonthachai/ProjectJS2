@@ -7,6 +7,7 @@ module.exports = (app) => {
         .get(user.list);
     app.route('/user/:username')
         .get(user.read)
-        .put(user.update);
+        .put(user.update)
+        .delete(user.delete);
     app.param('username',user.userByUsername);
 };
