@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 
 module.exports = () => {
     mongoose.set('debug',config.debug);
-    let db = mongoose.connect(config.mongoUri,{ useNewUrlParser: true });
+    let setMongoose = { useCreateIndex: true , useNewUrlParser: true , useFindAndModify: false };
+    let db = mongoose.connect(config.mongoUri,setMongoose);
 
     require('../app/models/user.model');
 
