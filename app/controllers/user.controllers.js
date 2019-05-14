@@ -75,7 +75,7 @@ exports.read = (req,res) => {
 };
 
 exports.update = (req,res,next) => {
-    User.findOneAndUpdate({username: req.user.username}, req.body,
+    User.findOneAndUpdate({ userName: req.user.userName }, req.body,
         (err,user) => {
             if(err) {
                 return next(err);
