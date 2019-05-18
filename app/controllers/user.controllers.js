@@ -94,3 +94,27 @@ exports.delete = (req,res,next) => {
         }
     });
 };
+
+exports.renderSignup = (req,res) => {
+    res.render('signup' , {
+        title: 'Sign up'
+    });
+};
+
+exports.signup = (req,res,next) => {
+    if (!req.user) {
+        let user = new User(req.body);
+        user.provider = 'local';
+
+        user.save((err) => {
+            if(err) return res.redirect('/signup'), 
+            console.log('save error!');
+            req.login(user , (err) => {
+                if(err) return next(err);
+                return res.redirect('/');
+            });
+        });
+    } else {
+        return res.redirect('/');
+    };
+};
