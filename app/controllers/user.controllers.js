@@ -104,7 +104,6 @@ exports.renderSignup = (req,res) => {
 exports.signup = (req,res,next) => {
     if (!req.user) {
         let user = new User(req.body);
-        user.provider = 'local';
 
         user.save((err) => {
             if(err) return res.redirect('/signup'), 
