@@ -1,7 +1,7 @@
 exports.render = (req,res) => {
     res.render('index' , {
         title: 'Hellow World',
-        username: req.user ? req.user.userName : ''
+        username: req.user ? req.user.username : ''
     });
 };
 
@@ -17,5 +17,5 @@ exports.queryString = (req,res) => {
     res.send('Hellow')
     console.log('Login Query String Check!')
     console.log(req.query)
-    console.log(req.query.userName)
+    console.log(req.query.username)
 };

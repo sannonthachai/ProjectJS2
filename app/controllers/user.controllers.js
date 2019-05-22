@@ -59,7 +59,7 @@ exports.list = (req,res,next) => {
 
 exports.userByUsername = (req,res,next,username) => {
     User.findOne({
-        userName: username
+        username: username
     }, (err,user) => {
         if(err){
             return next(err);
@@ -75,7 +75,7 @@ exports.read = (req,res) => {
 };
 
 exports.update = (req,res,next) => {
-    User.findOneAndUpdate({ userName: req.user.userName }, req.body,
+    User.findOneAndUpdate({ username: req.user.username }, req.body,
         (err,user) => {
             if(err) {
                 return next(err);
