@@ -1,6 +1,5 @@
 exports.render = (req,res) => {
     res.render('index' , {
-        title: 'Hellow World',
         username: req.user ? req.user.username : ''
     });
 };
