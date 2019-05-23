@@ -33,6 +33,7 @@ exports.logout = (req,res) => {
     });
 };
 
+const bcrypt = require('bcrypt');
 const User = require('mongoose').model('User');
 
 exports.create = (req,res,next) => {
@@ -105,14 +106,21 @@ exports.signup = (req,res,next) => {
     if (!req.user) {
         let user = new User(req.body);
 
-        user.save((err) => {
-            if(err) return res.redirect('/signup'), 
-            console.log('save error!');
-            req.login(user , (err) => {
-                if(err) return next(err);
-                return res.redirect('/');
-            });
-        });
+        bcrypt.genSalt(10, (err,salt) =>
+            bcrypt.hash(user.password, salt, (err,hash) => {
+                if(err) throw err;
+
+                user.password = hash
+
+                user.save((err) => {
+                    if(err) return res.redirect('/signup'), 
+                    console.log('save error!');
+                    req.login(user , (err) => {
+                        if(err) return next(err);
+                        return res.redirect('/');
+                    });
+                });
+            }));     
     } else {
         return res.redirect('/');
     };
