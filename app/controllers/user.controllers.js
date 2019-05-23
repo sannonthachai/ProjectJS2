@@ -97,9 +97,7 @@ exports.delete = (req,res,next) => {
 };
 
 exports.renderSignup = (req,res) => {
-    res.render('signup' , {
-        title: 'Sign up'
-    });
+    res.render('signup');
 };
 
 exports.signup = (req,res,next) => {
@@ -124,4 +122,8 @@ exports.signup = (req,res,next) => {
     } else {
         return res.redirect('/');
     };
+};
+
+exports.renderLogin = (req,res) => {
+    res.render('login');
 };

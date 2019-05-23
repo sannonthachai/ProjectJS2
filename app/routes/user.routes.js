@@ -3,7 +3,9 @@ module.exports = (app) => {
     app.route('/signup')
         .get(user.renderSignup)
         .post(user.signup);
-    app.post('/login',user.login);
+    app.route('/login')
+        .get(user.renderLogin)
+        .post(user.login);
     app.post('/logout',user.logout);
     app.route('/user')
         .post(user.create)
