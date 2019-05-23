@@ -2,11 +2,11 @@ const express = require('express');
 const morgan = require('morgan');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const sass = require('node-sass-middleware');
 const validator = require('express-validator');
 const session = require('express-session');
 const passport = require('passport');
+const flash = require('connect-flash');
 const config = require('./config');
 
 module.exports = () => {
@@ -26,7 +26,14 @@ module.exports = () => {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    app.use(cookieParser());
+    app.use(flash());
+
+    app.use((req, res, next) => {
+        res.locals.success_msg = req.flash('success_msg');
+        res.locals.error_msg = req.flash('error_msg');
+        res.locals.error = req.flash('error');
+        next();
+      });
 
     app.use(bodyParser.urlencoded({
         extended: true
