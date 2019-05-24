@@ -96,9 +96,13 @@ exports.delete = (req,res,next) => {
     });
 };
 
+// render signup
+
 exports.renderSignup = (req,res) => {
     res.render('signup');
 };
+
+// signup
 
 exports.signup = (req,res,next) => {
     if (!req.user) {
@@ -123,6 +127,8 @@ exports.signup = (req,res,next) => {
         return res.redirect('/');
     };
 };
+
+// render login
 
 exports.renderLogin = (req,res) => {
     res.render('login');
