@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-html(lang="en")
-  include includes/head.pug
-  body
-    .container
+extends layout
 
+block content
+    .container
         .row.mt-5
         .col-md-6.m-auto
             .card.card-body
                 h1.text-center.mb-3
                     i.fas.fa-sign-in-alt  Login
-                
                 include partials/messages.pug
-
                 form(name='login' , method='POST' , action="/login")
                     .form-group
                         label(for='username') Username
@@ -21,5 +17,3 @@ html(lang="en")
                         input.form-control(name='password' , type='password' , placeholder='password')
                     .form-group
                         input.btn.btn-primary.btn-block(type='submit' , value='Log in')
-
-    include includes/bootstrap.pug
