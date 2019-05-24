@@ -4,6 +4,10 @@ exports.render = (req,res) => {
     });
 };
 
+exports.renderProfile = (req,res) => {
+    res.render('profile')
+}
+
 exports.cookie = (req,res) => {
     res.cookie("myName","Chai@Sannonthachai",{
         maxAge: 1000 * 60 * 60
