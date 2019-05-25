@@ -1,12 +1,10 @@
 exports.render = (req,res) => {
-    res.render('index' , {
-        username: req.user ? req.user.username : ''
-    });
+    res.render('index')
 };
 
 exports.renderProfile = (req,res) => {
     res.render('profile')
-}
+};
 
 exports.cookie = (req,res) => {
     res.cookie("myName","Chai@Sannonthachai",{

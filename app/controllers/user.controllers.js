@@ -1,40 +1,34 @@
-exports.login = (req,res) => {
-    req.checkBody('email','Invalid email').notEmpty().isEmail();
-    req.sanitizeBody('email').normalizeEmail();
-    var errors = req.validationErrors();
-    if (errors) {
-        res.render('index',{
-            title: 'There have been validation errors: ' + JSON.stringify(errors),
-            isLoggedIn: false
-        });
-        return;
-    }
-    console.log(req.body);
-    console.log('Email: ' + req.body.email);
-    console.log('Passwaord: ' + req.body.password);
+// exports.login = (req,res) => {
+//     req.checkBody('email','Invalid email').notEmpty().isEmail();
+//     req.sanitizeBody('email').normalizeEmail();
+//     var errors = req.validationErrors();
+//     if (errors) {
+//         res.render('index',{
+//             title: 'There have been validation errors: ' + JSON.stringify(errors),
+//             isLoggedIn: false
+//         });
+//         return;
+//     }
+//     console.log(req.body);
+//     console.log('Email: ' + req.body.email);
+//     console.log('Passwaord: ' + req.body.password);
 
-    if (req.body.remember === 'remember'){
-        req.session.remember = true;
-        req.session.email = req.body.email;
-        req.session.cookie.maxAge = 60000;
-    }
+//     if (req.body.remember === 'remember'){
+//         req.session.remember = true;
+//         req.session.email = req.body.email;
+//         req.session.cookie.maxAge = 60000;
+//     }
 
-    res.render('index',{
-        title: 'Logged in as ' + req.body.email,
-        isLoggedIn: true
-    });
-};
-
-exports.logout = (req,res) => {
-    req.session = null;
-    res.render('index',{
-        title: 'See you again later',
-        isLoggedIn: false
-    });
-};
+//     res.render('index',{
+//         title: 'Logged in as ' + req.body.email,
+//         isLoggedIn: true
+//     });
+// };
 
 const bcrypt = require('bcrypt');
 const User = require('mongoose').model('User');
+
+// body-parser
 
 exports.create = (req,res,next) => {
     let user = new User(req.body);
@@ -96,13 +90,15 @@ exports.delete = (req,res,next) => {
     });
 };
 
-// render signup
+
+// Passport Project
+// Signup Page
 
 exports.renderSignup = (req,res) => {
     res.render('signup');
 };
 
-// signup
+// Signup Logic
 
 exports.signup = (req,res,next) => {
     if (!req.user) {
@@ -128,8 +124,26 @@ exports.signup = (req,res,next) => {
     };
 };
 
-// render login
+// Login Page
 
 exports.renderLogin = (req,res) => {
     res.render('login');
+};
+
+// Login Logic
+
+exports.login = (req, res, next) => {
+    passport.authenticate('local', {
+      successRedirect: '/profile',
+      failureRedirect: '/login',
+      failureFlash: true
+    })(req, res, next);
+};
+
+// Logout
+
+exports.logout = (req,res) => {
+    req.logout();
+    // req.flash('success_msg', 'You are logged out');
+    res.redirect('/login');
 };

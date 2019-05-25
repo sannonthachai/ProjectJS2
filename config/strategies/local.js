@@ -1,44 +1,41 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt');
 const User = require('mongoose').model('User');
 
 module.exports = () => {
-    // passport.use('local-signup', new LocalStrategy({
-    //     usernameField: 'username',
-    //     passwordField: 'password',
-    //     passReqToCallback: true
-    // },
-    //     function (req, username, password, done) {
-    //         User.findOne({ 'local.username': username }, function (err, user) {
-    //             if (err)
-    //                 return done(err);
-    //             if (user) {
-    //                 return done(null, false, req.flash('signupMessage', 'That username is already taken.'));
-    //             } else {
-    //                 var newUser = new User();
-    //                 newUser.local.username = username;
-    //                 newUser.local.password = newUser.generateHash(password); // use the generateHash function in our user model
-
-    //                 newUser.save(function (err) {
-    //                     if (err)
-    //                         throw err;
-    //                     return done(null, newUser);
-    //                 });
-    //             }
-
-    //         });
-
-    //     }));
-
-    passport.use(new LocalStrategy ((username,password,done) => {
-        User.findOne({ username: username}, (err,user) => {
-            if(err) {return done(err);}
-            if(!user || !user.authenticate(password)){
-                return done(null, false, {
-                    message: 'Invalid username or password'
-                });
+    passport.use(
+        new LocalStrategy({ usernameField: 'username' }, (username, password, done) => {
+          // Match user
+          User.findOne({
+            username: username
+          }).then(user => {
+            if (!user) {
+              return done(null, false, { message: 'That username is not registered' });
             }
-            return done(null,user);
-        });
-    }));
+    
+            // Match password
+            bcrypt.compare(password, user.password, (err, isMatch) => {
+              if (err) throw err;
+              if (isMatch) {
+                return done(null, user);
+              } else {
+                return done(null, false, { message: 'Password incorrect' });
+              }
+            });
+          });
+        })
+      );
+
+    // passport.use(new LocalStrategy ((username,password,done) => {
+    //     User.findOne({ username: username}, (err,user) => {
+    //         if(err) {return done(err);}
+    //         if(!user || !user.authenticate(password)){
+    //             return done(null, false, {
+    //                 message: 'Invalid username or password'
+    //             });
+    //         }
+    //         return done(null,user);
+    //     });
+    // }));
 };
