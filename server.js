@@ -1,12 +1,61 @@
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
-const mongoose = require('./config/mongoose');
-const passport = require('./config/passport');
-const express = require('./config/express');
-const db = mongoose();
+const express = require('express');
+const morgan = require('morgan');
+const session = require('express-session');
+const passport = require('passport');
+const flash = require('connect-flash');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const app = express();
-const pass = passport();
-app.listen(3000);
-module.exports = app;
 
-console.log('Server running at http://localhost:3000');
+// passport config
+require('./config/passport')(passport);
+
+// DB config
+const db = require('./config/key');
+
+// connect to mongoDB
+mongoose.connect(db.mongoURI,db.set)
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log(err));
+
+// morgan
+app.use(morgan('dev'));
+
+// Pug
+app.set('views','./app/views');
+app.set('view engine','pug');
+
+// Express body-parser
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
+// Express session
+app.use(session({
+    secret: 'secret_key',
+    resave: true,
+    saveUninitialized: true
+}));
+
+// passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// connect flash
+app.use(flash());
+
+// global variables
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    next();
+});
+
+// routes
+app.use('/', require('./app/routes/index.routes'));
+app.use('/', require('./app/routes/user.routes'));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, console.log(`Server started on port ${PORT}`));

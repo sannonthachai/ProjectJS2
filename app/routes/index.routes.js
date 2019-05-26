@@ -1,10 +1,16 @@
+const express = require('express');
+const router = express.Router();
 const { ensureAuthenticated, forwardAuthenticated } = require('../../config/forwardauth');
 
-module.exports = (app) => {
-    let index = require('../controllers/index.controllers');
-    app.get('/',forwardAuthenticated,index.render);
-    app.get('/profile',ensureAuthenticated,index.renderProfile);
+// Index Page
+router.get('/', forwardAuthenticated, (req,res) => {
+    res.render('index')
+});
 
-    app.get('/setCookies',index.cookie);
-    app.get('/loginquery',index.queryString);
-};
+// Profile Page
+router.get('/profile', ensureAuthenticated,(req,res) => {
+    res.render('profile')
+});
+
+
+module.exports = router;
