@@ -3,38 +3,63 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const User = require('../models/user.model');
+const { forwardAuthenticated } = require('../../config/forwardauth');
 
 // Login Page
-router.get('/login', (req,res) => {
+router.get('/login', forwardAuthenticated, (req,res) => {
     res.render('login');
 });
 
 // Signup Page
-router.get('/signup', (req,res) => {
+router.get('/signup', forwardAuthenticated, (req,res) => {
     res.render('signup');
 });
 
 // Register
 router.post('/signup', (req,res) => {
-    if (!req.user) {
-        let user = new User(req.body);
+    let { firstname, lastname, username, email, password, password2 } = req.body;
+    let errors = [];
 
-        bcrypt.genSalt(10, (err,salt) =>
-            bcrypt.hash(user.password, salt, (err,hash) => {
-                if(err) throw err;
+    if (!firstname || !lastname || !username || !email || !password || !password2) {
+        errors.push({ msg: 'Please enter all fields' });
+    }
+    
+    if (password != password2) {
+        errors.push({ msg: 'Passwords do not match' });
+    }
+    
+    if (password.length < 6) {
+        errors.push({ msg: 'Password must be at least 6 characters' });
+    }
 
-                user.password = hash
-
-                user.save()
-                .then(user => {
-                    req.flash('success_msg','You are now registered and can login');
-                    res.redirect('/login');
-                })
-                .catch(err => console.log(err));
-            }));     
+    if (errors.length > 0) {
+        res.render('signup', errors);
     } else {
-        return res.redirect('/');
-    };
+        User.findOne({ username: username}, (err,user) => {
+            if (err) throw err;
+
+            if (user) {
+                errors.push({ msg: 'Username already exists' });
+                res.render('signup', errors);
+            } else {
+                let user = new User(req.body);
+
+                bcrypt.genSalt(10, (err,salt) =>
+                    bcrypt.hash(user.password, salt, (err,hash) => {
+                        if(err) throw err;
+
+                        user.password = hash
+
+                        user.save()
+                        .then(user => {
+                            req.flash('success_msg','You are now registered and can login');
+                            res.redirect('/login');
+                        })
+                        .catch(err => console.log(err));
+                }));     
+            }
+        })
+    }
 });
 
 // Login
