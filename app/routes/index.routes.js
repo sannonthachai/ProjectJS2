@@ -9,8 +9,9 @@ router.get('/', forwardAuthenticated, (req,res) => {
 
 // Profile Page
 router.get('/profile', ensureAuthenticated,(req,res) => {
-    res.render('profile')
+    res.render('profile' , {
+        user: req.user
+    })
 });
-
 
 module.exports = router;
