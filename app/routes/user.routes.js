@@ -33,14 +33,14 @@ router.post('/signup', (req,res) => {
     }
 
     if (errors.length > 0) {
-        res.render('signup', errors);
+        res.render('signup', {errors});
     } else {
         User.findOne({ username: username}, (err,user) => {
             if (err) throw err;
 
             if (user) {
                 errors.push({ msg: 'Username already exists' });
-                res.render('signup', errors);
+                res.render('signup', {errors});
             } else {
                 let user = new User(req.body);
 
@@ -63,13 +63,12 @@ router.post('/signup', (req,res) => {
 });
 
 // Login
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {
       successRedirect: '/profile',
       failureRedirect: '/login',
       failureFlash: true
-    })(req, res, next);
-});
+    })
+);
 
 // Logout
 router.get('/logout', (req,res) => {

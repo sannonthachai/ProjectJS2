@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
@@ -21,9 +22,10 @@ mongoose.connect(db.mongoURI,db.set)
 // morgan
 app.use(morgan('dev'));
 
-// Pug
+// EJS
+app.use(expressLayouts);
 app.set('views','./app/views');
-app.set('view engine','pug');
+app.set('view engine','ejs');
 
 // Express body-parser
 app.use(bodyParser.urlencoded({
