@@ -36,8 +36,9 @@ app.use(bodyParser.json());
 // Express session
 app.use(session({
     secret: 'secret_key',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 60000 }
 }));
 
 // passport middleware
