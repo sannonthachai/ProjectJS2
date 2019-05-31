@@ -18,7 +18,7 @@ module.exports = (passport) => {
     
             // Match password
             bcrypt.compare(password, user.password, (err, isMatch) => {
-              if (err) throw 
+              if (err) throw err
               if (isMatch) {
                 return done(null, user)
               } else {
