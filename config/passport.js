@@ -39,18 +39,3 @@ module.exports = (passport) => {
         })
     })
 }
-
-
-
-// if (isMatch) {
-//   (req,res) => {
-//   let payload = {
-//       sub: req.body.username,
-//       iat: new Date().getTime()
-//   };
-//   let SECRET = 'MY_SECRET_KEY';
-//   jwt.encode(payload, SECRET);
-//   return done(null, user);
-// }
-// }
-

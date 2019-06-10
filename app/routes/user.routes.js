@@ -33,14 +33,14 @@ router.post('/signup', (req,res) => {
     }
 
     if (errors.length > 0) {
-        res.render('signup', {errors})
+        res.render('signup', {errors, firstname, lastname, username, email})
     } else {
         User.findOne({ username: username}, (err,user) => {
             if (err) throw err
 
             if (user) {
                 errors.push({ msg: 'Username already exists' })
-                res.render('signup', {errors})
+                res.render('signup', {errors, firstname, lastname, username, email})
             } else {
                 let user = new User(req.body)
 
